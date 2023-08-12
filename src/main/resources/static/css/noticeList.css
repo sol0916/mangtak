@@ -1,0 +1,62 @@
+.userpage_title {
+    width: 200px;
+    height: 60px;
+    text-align: center;
+    font-size: 20px;
+    line-height: 56px;
+    background-color: #453a79;
+    color: white;
+    font-weight: 550;
+    border-radius: 10px;
+}
+
+
+.notice_box{
+    border: 1px solid #777;
+    padding: 80px 100px 40px 100px;
+
+}
+
+.notice_box .notice_table {
+
+    margin: 0 auto;
+    width: 100%;
+}
+
+.notice_box .notice_table .notice_head {
+    border-bottom: 1px solid #865490;
+    border-top: 1px solid #865490;
+    height: 60px;
+}
+
+.notice_box .notice_table .list_no {width: 5%;}
+.notice_box .notice_table .list_title {width: 55%;}
+.notice_box .notice_table .list_name {width: 20%;}
+.notice_box .notice_table .list_date {width: 20%;}
+
+
+.notice_box .notice_table .notice_info {
+    height: 60px;
+    border-bottom: 1px solid #777;
+}
+.notice_box .notice_table .notice_info > th {font-weight: 400;}
+
+
+/* page btn */
+
+
+.page { text-align: center; margin-top: 70px;}
+
+.page li {
+    display: inline-block;
+    border: 1px solid #777;
+    width: 40px;
+    height: 40px;
+    line-height: 41px;
+    background-color: #2f2e6d;
+    color: #cdc8c8;
+}
+
+
+
+

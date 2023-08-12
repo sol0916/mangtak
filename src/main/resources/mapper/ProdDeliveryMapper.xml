@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.delivery.springbootproject.prodDelivery.service.ProdDeliveryMapper">
+
+    <select id="getList" resultType="ProductVO">
+        select * from prod
+                          left outer join
+                      customer
+                      on prod_name = customer.cus_product
+        where prod_location = (select user_area from user where user_id = #{id}) and prod_status = '배송중' and customer.cus_type = '수취인' and prod_bad_yn = 'N' order by shipdate;
+    </select>
+    <select id="clearList" resultType="ProductVO">
+        select * from prod
+                          left outer join
+                      customer
+                      on prod_name = customer.cus_product
+        where prod_location = (select user_area from user where user_id = #{id})
+          and customer.cus_type = '수취인'
+          and prod_bad_yn = 'N'
+          and prod_status = "배송완료"
+        order by shipdate;
+    </select>
+
+    <update id="statusModify" >
+        update  prod set prod_status = "배송완료"
+        where prod_del_no = #{del_no}
+    </update>
+
+    <insert id="imgReg" parameterType="ProductImgVO">
+        insert into image (img_name, img_path, img_uuid, img_type, img_del_no)
+        values (#{img_name}, #{img_path}, #{img_uuid}, #{img_type}, #{img_del_no})
+    </insert>
+
+    <select id="getDetail" resultType="ProductVO">
+        select * from
+            (select prod_no, prod_regdate, prod_del_no, prod_type, prod_name, prod_deliver, prod_area, shipdate, prod_status, prod_location,prod_bad_yn, prod_msg,
+                    user_name, user_phone, user_area
+             from prod p
+                      left outer join
+                  user
+                  on p.user_no = user.user_no) a
+                left outer join
+            customer c
+            on a.prod_name = c.cus_product
+        where a.prod_del_no = #{del_no} and c.cus_type = '수취인';
+    </select>
+
+    <update id="defectiveModify" >
+        update prod set prod_bad_yn = "Y" where prod_del_no = ${del_no}
+    </update>
+
+    <insert id="defectiveModifyContent">
+        insert into defective_prod(d_content, prod_del_no) values ("${d_content}", ${del_no})
+    </insert>
+
+    <insert id="defectiveImg" parameterType="ProductImgVO">
+        insert into image (img_name, img_path, img_uuid, img_type, img_del_no)
+        values (#{img_name}, #{img_path}, #{img_uuid}, #{img_type}, #{img_del_no})
+    </insert>
+
+    <update id="cancelForm">
+        update prod set prod_status = "배송중" where prod_del_no = #{prod_del_no}
+    </update>
+    <delete id="deleteImg">
+        delete from image where img_del_no = ${prod_del_no};
+    </delete>
+
+    <select id="defectiveList" resultType="ProductVO">
+        SELECT * FROM prod a
+                          LEFT OUTER JOIN customer c
+                                          ON a.prod_name = c.cus_product
+                          LEFT OUTER JOIN defective_prod dp
+                                          ON a.prod_del_no = dp.prod_del_no
+        WHERE a.prod_location = (SELECT user_area FROM user WHERE user_id = ${id})
+          AND c.cus_type = '수취인'
+          AND a.prod_bad_yn = 'Y'
+        ORDER BY a.shipdate;
+    </select>
+
+    <update id="defectiveForm">
+        update prod set prod_bad_yn = 'N' where prod_del_no = ${prod_del_no}
+    </update>
+
+    <delete id="defectiveDeleteImg">
+        delete from image where img_del_no = ${prod_del_no}
+    </delete>
+
+
+</mapper>

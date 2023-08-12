@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<link rel="stylesheet" th:href="@{/css/prodDeliver_prodList1.css}">
+<script th:src="@{/js/jquery-1.12.1.min.js}"></script>
+<script th:src="@{/js/jquery-ui.min.js}"></script>
+<script th:src="@{/js/imageUpload.js}"></script>
+
+<th:block th:replace="~{./include/basicLayout2 :: setContent(~{:: .wrap})}">
+
+    <div class="wrap">
+        <div class="prodadmin_title">배송해야 할 물품</div>
+        <div class="list">
+
+
+            <div class="full_collum collum">
+                <ul>
+                    <li class="collum_tit">
+                        <table cellpadding="0" cellspacing="0" class="col_14">
+                            <tr>
+                                <th style="width: 2%;">순서</th>
+                                <th style="width: 3%;">운송장번호</th>
+                                <th style="width: 3%;">출고일</th>
+                                <th style="width: 4%;">상품유형</th>
+                                <th style="width: 7%;">도착주소</th>
+                                <th style="width: 7%;">배송메시지</th>
+                                <th style="width: 2%;">배송완료</th>
+                                <th style="width: 2%;">불량처리</th>
+                            </tr>
+
+                            <tr th:each=" vo, status : ${list}">
+
+                                <td>[[${status.count}]]</td>
+                                <td><a id="keyId" th:href="@{prodDetail(prod_del_no=${vo.prod_del_no})}">[[${vo.prod_del_no}]]</a></td>
+                                <td >[[${vo.shipdate}]]</td>
+                                <td>[[${vo.prod_type}]]</td>
+                                <td>[[${vo.cus_addr}]]</td>
+                                <td>[[${vo.prod_msg}]]</td>
+                                <td style="text-align: center;">
+                                    <button th:value="${status.count}" class="modal_btn" onclick=popupModal(this)
+                                            style="width: 40px; background-color: #dddddd; border-radius: 5px;
+                                        height: 30px; color: #0f172a; vertical-align: middle; line-height: 32px">등록
+                                    </button>
+                                </td>
+                                <td style="text-align: center;">
+                                    <button th:value="${status.count}" class="modal_btn" onclick=popupModal1(this)
+                                            style="width: 40px; background-color: #dddddd; border-radius: 5px;
+                                        height: 30px; color: #0f172a; vertical-align: middle; line-height: 32px">처리
+                                    </button>
+                                </td>
+
+                            </tr>
+                        </table>
+                    </li>
+                </ul>
+            </div>
+
+            <div class="modal">
+                <div class="modal-wrap">
+                    <div>
+                        <form action="deliveryModifyForm" name="deliveryForm" enctype="multipart/form-data" method="post">
+                            <input type="hidden" id="del_no" name="del_no">
+                            <!--                                                    <input type="hidden" name="prod_name" th:value="${vo.prod_name}">-->
+                            <div class="upload_box">
+                                <h3 class="upload_title">물품 배송완료 처리</h3>
+                                <div class="filebox preview-image">
+                                    <!--1 -->
+                                    <div class="left">
+                                        <span>메인이미지</span>
+                                        <label class="upload-display" for="main_file">
+                                                                        <span class="upload-thumb-wrap">
+                                                                            <img class="upload-thumb" src="../img/plus_btn.png" >
+                                                                        </span>
+                                        </label>
+                                        <input class="upload-name" value="파일선택" disabled="disabled">
+                                        <input type="file" name="file" id="main_file" class="upload-hidden">
+                                    </div>
+                                </div>
+
+                            </div>
+                            <div class="btn_box">
+                                <a href="/prodDeliver/prodList1" class="btn1">
+                                    취소
+                                </a>
+                                <input type="submit" value="배송완료">
+                            </div>
+                        </form>
+
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="modal1">
+                <div class="modal-wrap">
+                    <div>
+                        <form action="defectiveModifyForm" name="deliveryForm" enctype="multipart/form-data" method="post">
+                            <input type="hidden" id="del_no1" name="del_no">
+                            <!--                                                    <input type="hidden" name="prod_name" th:value="${vo.prod_name}">-->
+                            <div class="upload_box">
+                                <h3 class="upload_title">물품 배송완료 처리</h3>
+                                <div class="filebox preview-image">
+                                    <!--1 -->
+                                    <div class="left">
+                                        <span>메인이미지</span>
+                                                                        <span class="upload-thumb-wrap">
+                                                                            <img class="upload-thumb" src="../img/plus_btn.png" >
+                                                                        </span>
+
+                                        <input type="file" name="file" id="main_file1" class="upload-hidden">
+                                    </div>
+                                </div>
+
+                            </div>
+                            <div class="text_box">
+                                <h3>불량 물품 상세내용</h3>
+                                <textarea class="text_box_input" placeholder="상세내용음 입력해주세요." name="d_content"></textarea>
+                            </div>
+                            <div class="btn_box">
+                                <a href="/prodDeliver/prodList1" class="btn1">
+                                    취소
+                                </a>
+                                <input type="submit" value="불량등록">
+
+                            </div>
+                        </form>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    </div>
+
+</th:block>
+
+<script>
+
+    function popupModal(e) {
+        var row_td = document.querySelectorAll('#keyId');
+
+        console.log(row_td[e.value].innerHTML);
+        document.getElementById('del_no').value = row_td[e.value-1].innerHTML;
+        const modal = document.querySelector('.modal');
+        console.log(document.getElementById('del_no').value);
+        modal.style.display = 'block';
+    }
+
+    function popupModal1(e) {
+        var row_td = document.querySelectorAll('#keyId');
+
+        console.log(row_td[e.value].innerHTML);
+        document.getElementById('del_no1').value = row_td[e.value-1].innerHTML;
+        const modal = document.querySelector('.modal1');
+        console.log(document.getElementById('del_no1').value);
+        modal.style.display = 'block';
+    }
+</script>
+
+<script th:inline="javascript">
+    var msg = '[[${msg}]]';
+    if (msg !== 'null'){
+        alert(msg);
+    }
+</script>
+
+
+</html>

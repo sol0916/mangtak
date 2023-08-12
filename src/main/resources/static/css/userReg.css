@@ -1,0 +1,41 @@
+.userpage_title {
+    width: 200px;
+    height: 60px;
+    text-align: center;
+    font-size: 20px;
+    line-height: 56px;
+    background-color: #453a79;
+    color: white;
+    font-weight: 550;
+    border-radius: 10px;
+}
+
+.userForm_wrap {
+    padding: 50px 50px 30px 50px;
+}
+.userForm_table {margin: 0 auto;
+    width: 32%;
+    border: 1px solid #777;
+    border-radius: 20px;
+}
+table {border-collapse:initial;}
+.thtd {width: 120px;}
+
+.select_user_area, .user_area_detail {width: 86%; color: #777}
+
+
+.btn_area{text-align: center; margin-top: 28px; padding-left: 450px}
+.btn_area input {border: 1px solid #777;}
+.btn_right {margin-left: 20px;}
+
+.title_box {
+    width: 200px;
+    height: 60px;
+    text-align: center;
+    font-size: 20px;
+    line-height: 56px;
+    background-color: #453a79;
+    color: white;
+    font-weight: 550;
+    border-radius: 10px;
+}

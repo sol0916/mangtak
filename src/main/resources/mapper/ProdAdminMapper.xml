@@ -1,0 +1,178 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.delivery.springbootproject.prodAdmin.service.ProdAdminMapper">
+
+
+    <select id="getList01" resultType="ProductVO">
+
+        select * from prod where prod_status = #{prod_status}
+        <if test="cri.searchKeyword == null or cri.searchKeyword == ''">
+        </if>
+        <if test="cri.searchKeyword != '' and cri.searchKeyword != null">
+            and
+            (
+            prod_regdate like concat('%',#{cri.searchKeyword},'%')
+            or prod_del_no like concat('%', #{cri.searchKeyword},'%')
+            or prod_deliver like concat ('%', #{cri.searchKeyword}, '%')
+            or prod_area like concat('%', #{cri.searchKeyword}, '%')
+            or prod_location like concat ('%', #{cri.searchKeyword}, '%')
+            or prod_type like concat ('%', #{cri.searchKeyword}, '%')
+            )
+        </if>
+
+        <if test="cri.check == null or cri.check.size() == 0">
+        </if>
+
+        <if test="cri.check != null and !cri.check.isEmpty()">
+            and (
+
+            <foreach collection="cri.check" item="item" open="(" close=")" separator="or">
+                prod_area like concat('%',#{item},'%')
+            </foreach>
+            )
+        </if>
+
+        order by shipdate
+        limit #{cri.pageStart}, #{cri.amount}
+
+    </select>
+
+
+    <select id="getTotal" resultType="int">
+        select  count(*) as total
+        from prod
+        where prod_status = #{prod_status}
+
+        <if test="cri.searchKeyword == null or cri.searchKeyword == ''">
+
+        </if>
+
+        <if test="cri.searchKeyword != '' and cri.searchKeyword != null">
+            and (prod_regdate like concat('%',#{cri.searchKeyword},'%')
+            or  prod_del_no like concat('%', #{cri.searchKeyword},'%')
+            or prod_deliver like concat ('%', #{cri.searchKeyword}, '%')
+            or prod_area like concat('%', #{cri.searchKeyword}, '%')
+            or prod_location like concat ('%', #{cri.searchKeyword}, '%')
+            or prod_type like concat ('%', #{cri.searchKeyword}, '%'))
+        </if>
+
+        <if test="cri.check == null or cri.check.size() == 0">
+
+        </if>
+
+        <if test="cri.check != null and !cri.check.isEmpty()">
+            and
+            <foreach collection="cri.check" item="item" open="(" close=")" separator="or">
+                prod_location like concat('%',#{item},'%')
+            </foreach>
+        </if>
+
+
+    </select>
+
+
+    <select id="getList02" resultType="ProductVO">
+        select * from prod where prod_status = #{prod_status}
+
+        <if test="cri.searchKeyword == null or cri.searchKeyword == ''">
+
+        </if>
+
+        <if test="cri.searchKeyword != '' and cri.searchKeyword != null">
+            and
+            (
+            prod_regdate like concat('%',#{cri.searchKeyword},'%')
+            or prod_del_no like concat('%', #{cri.searchKeyword},'%')
+            or prod_deliver like concat ('%', #{cri.searchKeyword}, '%')
+            or prod_area like concat('%', #{cri.searchKeyword}, '%')
+            or prod_location like concat ('%', #{cri.searchKeyword}, '%')
+            or prod_type like concat ('%', #{cri.searchKeyword}, '%')
+            )
+        </if>
+
+        <if test="cri.check == null or cri.check.size() == 0">
+
+        </if>
+
+        <if test="cri.check != null and !cri.check.isEmpty()">
+            and (
+
+            <foreach collection="cri.check" item="item" open="(" close=")" separator="or">
+                prod_location like concat('%',#{item},'%')
+            </foreach>
+            )
+        </if>
+
+        order by shipdate
+        limit #{cri.pageStart}, #{cri.amount}
+
+    </select>
+
+    <select id="getDetail" resultType="ProductVO">
+        select * from
+            (select * from
+                (select * from
+                    (select prod_regdate, prod_del_no, prod_type, prod_name, prod_deliver, prod_area, shipdate, prod_status, prod_location,prod_bad_yn, prod_msg,
+                            user_name, user_phone, user_area
+                     from prod p
+                              left outer join
+                          user
+                          on p.user_no = user.user_no) a
+                        left outer join
+                    customer c
+                    on a.prod_name = c.cus_product
+                ) info
+                    left outer join
+                image i
+                on info.prod_del_no = i.img_del_no) x
+                left outer join
+            defective_prod d
+            on x.prod_del_no = d.prod_del_no
+        where x.prod_del_no = #{del_no};
+    </select>
+
+    <select id="getList03" resultType="ProductVO">
+        select * from prod where prod_bad_yn = #{prod_status}
+
+        <if test="cri.searchKeyword == null or cri.searchKeyword == ''">
+
+        </if>
+
+        <if test="cri.searchKeyword != '' and cri.searchKeyword != null">
+            and
+            (
+            prod_regdate like concat('%',#{cri.searchKeyword},'%')
+            or prod_del_no like concat('%', #{cri.searchKeyword},'%')
+            or prod_deliver like concat ('%', #{cri.searchKeyword}, '%')
+            or prod_area like concat('%', #{cri.searchKeyword}, '%')
+            or prod_location like concat ('%', #{cri.searchKeyword}, '%')
+            or prod_type like concat ('%', #{cri.searchKeyword}, '%')
+            )
+        </if>
+
+        <if test="cri.check == null or cri.check.size() == 0">
+
+        </if>
+
+        <if test="cri.check != null and !cri.check.isEmpty()">
+            and (
+
+            <foreach collection="cri.check" item="item" open="(" close=")" separator="or">
+                prod_location like concat('%',#{item},'%')
+            </foreach>
+            )
+        </if>
+
+        order by shipdate
+        limit #{cri.pageStart}, #{cri.amount}
+
+    </select>
+
+    <delete id="deleteData">
+        delete from prod where prod_del_no=#{del_no}
+    </delete>
+
+</mapper>

@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<link rel="stylesheet" th:href="@{/css/mypage_modify.css}">
+
+<th:block th:replace="~{/include/basicLayout2 :: setContent(~{::.wrap})}">
+
+
+    <div class="userpage_title wrap">마이페이지</div>
+
+
+    <div class="user wrap">
+
+
+        <form name="actionForm" action="" method="post">
+            <div class="user_box">
+                <div class="user_box_data">
+                    <h3 class="user_title">개인정보 수정</h3>
+                    <div class="user_content">
+                        <div class="info_title">
+                            <p>이름 </p>
+                            <p>아이디 </p>
+                            <p>비밀번호</p>
+                            <p>비밀번호확인</p>
+                            <p>이메일 </p>
+                            <p>연락처</p>
+                        </div>
+                        <div class="info_box">
+
+                            <input type="text" th:value="${vo != null ? vo.user_name : ''}" name="user_name" readonly>
+                            <input type="text" th:value="${vo != null ? vo.user_id : ''}" name="user_id" readonly>
+                            <input type="password" th:value="${vo != null ? vo.user_pw : ''}" name="user_pw" id="pw">
+
+                            <input type="password" value="" name="user_repw" id="repw">
+                            <input type="email" th:value="${vo != null ? vo.user_email : ''}" name="user_email">
+                            <input type="text" th:value="${vo != null ? vo.user_phone : ''}" name="user_phone">
+
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="btn_box">
+
+                <a href="/main1" class="btn1" id="mainBtn">
+                    홈으로
+                </a>
+                <a href="#" class="btn1" id="modifyBtn">
+                    수정완료
+                </a>
+            </div>
+        </form>
+
+
+    </div>
+
+
+</th:block>
+
+
+<script>
+
+
+
+
+
+
+
+</script>
+
+<script th:inline="javascript">
+
+    var email_msg = `[[${valid_user_email}]]`;
+    var phone_msg = `[[${valid_user_phone}]]`;
+    var pw_msg = `[[${valid_user_pw}]]`;
+
+    if (email_msg !== 'null') {
+        alert(email_msg);
+    } else if (phone_msg !== 'null') {
+        alert(phone_msg);
+    } else if (pw_msg !== 'null') {
+        alert(pw_msg);
+    }
+
+    var modifyBtn = document.getElementById("modifyBtn");
+    modifyBtn.onclick = () => {
+        var repw = document.getElementById("repw").value;
+        var pw = document.getElementById("pw").value;
+        event.preventDefault();
+
+        if (repw !== pw) {
+            document.actionForm.action = "mypageModify"; // action 변경
+            alert("비밀번호가 일치하지 않습니다.");
+            document.actionForm.submit();
+        } else {
+            document.actionForm.action = "modifyForm"; // action 변경
+            document.actionForm.submit();
+        }
+    }
+</script>
+
+</html>

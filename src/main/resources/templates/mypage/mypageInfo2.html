@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<link rel="stylesheet" th:href="@{/css/mypageInfo.css}">
+
+<th:block th:replace="~{/include/basicLayout :: setContent(~{::.wrap})}">
+
+
+    <div class="userpage_title wrap">마이페이지</div>
+
+
+    <div class="user wrap">
+        <form action="" name="actionForm">
+            <div class="user_box">
+
+                <div class="user_box_data">
+                    <h3 class="user_title">담당정보</h3>
+                    <div class="user_content">
+                        <div class="info_title">
+                            <p>담당업무 </p>
+                            <p>유저번호 </p>
+                            <p>담당지역 </p>
+                        </div>
+                        <div class="info_box">
+                            <input type="text" th:value="${vo.user_jobassign}" name="user_jobassign" readonly>
+                            <input type="text" th:value="${vo.user_no}" name="user_no" readonly>
+                            <input type="text" th:value="${vo.user_area}" name="user_area" readonly>
+
+                        </div>
+                    </div>
+                </div>
+
+                <div class="user_box_data">
+                    <h3 class="user_title">개인정보</h3>
+                    <div class="user_content">
+                        <div class="info_title">
+                            <p>이름 </p>
+                            <p>아이디 </p>
+                            <p>이메일 </p>
+                            <p>연락처</p>
+                            <p>비밀번호</p>
+                        </div>
+                        <div class="info_box">
+                            <input type="text" th:value="${vo.user_name}" name="user_name" readonly>
+                            <input type="text" th:value="${vo.user_id}" name="user_id" readonly>
+                            <input type="email" th:value="${vo.user_email}" name="user_email" readonly>
+                            <input type="text" th:value="${vo.user_phone}" name="user_phone" readonly>
+                            <input type="password" th:value="${vo.user_pw}" name="user_pw" readonly>
+
+                        </div>
+                    </div>
+                </div>
+
+
+            </div>
+
+
+            <div class="btn_box">
+
+                <a href="/main2" class="btn1">
+                    홈으로
+                </a>
+                <a href="#" class="btn1" id="modifyBtn">
+                    수정하기
+                </a>
+            </div>
+
+        </form>
+
+    </div>
+
+</th:block>
+
+<div id="myModal" class="modal">
+    <div class="modal-content">
+        <span id="closeButton" class="close">&times;</span>
+        <p>모달 내용이 여기에 들어갑니다.</p>
+    </div>
+</div>
+
+<script>
+
+    var modifyBtn = document.getElementById("modifyBtn");
+    modifyBtn.onclick = () => {
+
+        event.preventDefault();
+        document.actionForm.action = "mypageModify2"; // action 변경
+        document.actionForm.submit();
+
+    }
+
+</script>
+
+<script th:inline="javascript">
+    var msg = `[[${msg}]]`;
+    if (msg !== 'null') {
+        alert(msg);
+    }
+
+</script>
+
+</html>

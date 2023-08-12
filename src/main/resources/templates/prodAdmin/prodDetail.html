@@ -1,0 +1,197 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <link rel="stylesheet" th:href="@{/css/prodDetail.css}">
+
+</head>
+
+<th:block th:replace="~{include/basicLayout :: setContent(~{::.wrap})}">
+
+    <div class="wrap">
+
+        <div class="prodDetail_title">물품 상세 정보</div>
+        <div class="main_con">
+            <div class="table_area">
+
+                <div class="first_table">
+                    <p style="font-size: 16px; margin: 0 0 5px 60px">[택배 물품 정보]</p>
+                    <table class="board_basic_view top_table">
+                        <tbody>
+                        <tr>
+                            <th>운송장번호</th>
+                            <td>[[${list[0].prod_del_no}]]</td>
+                            <th>택배접수일</th>
+                            <td>[[${list[0].prod_regdate}]]</td>
+                            <th>베송메시지</th>
+                            <td>[[${list[0].prod_msg}]]</td>
+                        </tr>
+                        <tr>
+                            <th>현재위치</th>
+                            <td>[[${list[0].prod_location}]]</td>
+                            <th>상품출고일</th>
+                            <td>[[${list[0].shipdate}]]</td>
+                            <th>배송상태</th>
+                            <td>[[${list[0].prod_status}]]</td>
+                        </tr>
+                        <tr>
+                            <th>상품유형</th>
+                            <td>[[${list[0].prod_type}]]</td>
+                            <th>상품명</th>
+                            <td>[[${list[0].prod_name}]]</td>
+                            <th>불량여부</th>
+                            <td colspan="3">
+                                <div class="uInputRadioBox">
+                                    <div class="uInputRadio">
+                                        <label>
+                                            <input type="radio" name="####" value="N"
+                                                   th:checked="${list[0].prod_bad_yn == 'N'}">
+                                            <span class="text">불량 X</span>
+                                        </label>
+                                        <label style="margin-left: 20px;">
+                                            <input type="radio" name="####" value="Y"
+                                                   th:checked="${list[0].prod_bad_yn == 'Y'}">
+                                            <span class="text">불량 O</span>
+                                        </label>
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="user_table">
+                    <div class="second_table">
+                        <p style="font-size: 16px; margin-bottom:5px">[발송인 정보]</p>
+                        <table class="board_basic_view left_table">
+                            <tbody>
+                            <tr>
+                                <th>이름</th>
+                                <td>[[${list[0].cus_name}]]</td>
+                            </tr>
+                            <th>연락처</th>
+                            <td>[[${list[0].cus_phone}]]</td>
+                            </tr>
+                            <tr>
+                                <th>주소</th>
+                                <td>[[${list[0].cus_addr}]]</td>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="third_table">
+                        <p style="font-size: 16px; margin-bottom: 5px">[수취인 정보]</p>
+                        <table class="board_basic_view right_table">
+                            <tbody>
+                            <tr>
+                                <th>이름</th>
+                                <td>[[${list[1].cus_name}]]</td>
+                            </tr>
+                            <th>연락처</th>
+                            <td>[[${list[1].cus_phone}]]</td>
+                            </tr>
+                            <tr>
+                                <th>주소</th>
+                                <td>[[${list[1].cus_addr}]]</td>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <div class="bottom_area">
+                    <div class="fourth_table">
+                        <p style="font-size: 16px; margin: 0 0 5px 60px">[택배 기사 정보]</p>
+                        <table class="board_basic_view last_table" style="width: 100%;">
+                            <tbody>
+                            <tr>
+                                <th style="background-color: #b7ddfa; color: #2b2b2b">지역</th>
+                                <td>[[${list[1].user_area}]]</td>
+                            </tr>
+                            <tr>
+                                <th style="background-color: #b7ddfa; color: #2b2b2b">담당기사</th>
+                                <td>[[${list[1].user_name}]]</td>
+                            </tr>
+                            <tr>
+                                <th style="background-color: #b7ddfa; color: #2b2b2b">기사연락처</th>
+                                <td>[[${list[1].user_phone}]]</td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="photo_area1" id="deliver_ok" style="display: none">
+                        <p style="font-size: 16px; margin: 0 0 5px 0">[배송완료]</p>
+                        <div class="photo1">
+                            <img th:src="@{display(filename=${list[0].img_name},filepath=${list[0].img_path},uuid=${list[0].img_uuid})}" alt="배송완료/불량신고_이미지">
+                        </div>
+
+                    </div>
+                    <div class="photo_area2" id="deliver_no" >
+                        <p style="font-size: 16px; margin: 0 0 5px 0">[불량접수]</p>
+                        <div class="photo2">
+                            <img th:src="@{display(filename=${list[0].img_name},filepath=${list[0].img_path},uuid=${list[0].img_uuid})}" alt="배송완료/불량신고_이미지">
+                        </div>
+                        <div class="bad_msg">
+                            <textarea class="bad_msg_con">불량 접수된 내용 : [[${list[0].d_content}]]</textarea>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="btn_area">
+<!--                <a href="#" class="save">저장</a>-->
+                <a id="goList" href="" class="revise">목록</a>
+                <a href="" class="delete">삭제</a>
+            </div>
+        </div>
+
+    </div>
+
+
+</th:block>
+
+<script th:inline="javascript">
+
+    $(function () {
+        var st = '[[${list[0].prod_status}]]';
+        var bad = '[[${list[0].prod_bad_yn}]]';
+
+        if(st=='"배송중"' && bad=='"N"') {
+            document.getElementById("deliver_ok").style.display = "none";
+            document.getElementById("deliver_no").style.display = "none";
+            document.getElementById("goList").href = "prodList1";
+        } else if(st=='"배송완료"' && bad=='"N"') {
+            document.getElementById("deliver_ok").style.display = "";
+            document.getElementById("deliver_no").style.display = "none";
+            document.getElementById("goList").href = "prodList2";
+        } else {
+            document.getElementById("deliver_ok").style.display = "none";
+            document.getElementById("deliver_no").style.display = "";
+            document.getElementById("goList").href = "prodList3";
+        }
+    });
+
+    $(".delete").click(function () {
+
+        var st2 = '[[${list[0].prod_status}]]';
+        var bad2 = '[[${list[0].prod_bad_yn}]]';
+
+        var res = window.prompt("삭제하려면 관리자 pw를 입력하세요", "");
+        res = '"' + res + '"';
+        if (res == '[[${pw}]]') {
+
+            if(st2=='"배송중"' && bad2=='"N"') {
+                this.href = "deleteForm?page=1";
+            } else if(st2=='"배송완료"' && bad2 == '"N"') {
+                this.href = "deleteForm?page=2";
+            } else {
+                this.href = "deleteForm?page=3";
+            }
+
+        } else {
+            alert('pw가 일치하지 않습니다.');
+        }
+    })
+
+</script>
+
+
+</html>

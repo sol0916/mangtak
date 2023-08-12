@@ -1,0 +1,89 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<link rel="stylesheet" th:href="@{/css/noticeReg.css}">
+
+
+<th:block th:replace="~{include/basicLayout :: setContent(~{::.wrap})}">
+
+
+    <div class="userpage_title wrap">공지내용</div>
+
+    <div class="notice_detail wrap">
+        <div class="detail_box">
+            <form action="#" name="RegForm">
+                <table class="detail_table">
+
+                    <tr class="detail_tr">
+                        <th class="detail_no">번호</th>
+
+                        <th class="detail_name">작성자</th>
+                        <th class="detail_name_ct">
+                            <input type="text"
+                                   style="background-color: transparent; width: 100%; resize: none; overflow-wrap: break-word; word-wrap: break-word; border: none;"
+                                   value="admin1" name="noti_writer">
+                        </th>
+                        <th class="detail_date">등록날짜</th>
+                        <th class="detail_date_ct">현재날짜</th>
+                        <th class="detail_enddate">공지종료날짜</th>
+                        <th class="detail_enddate_ct">
+                            <input type="date"
+                                   style="background-color: transparent; width: 100%; resize: none; overflow-wrap: break-word; word-wrap: break-word; border: none;"
+                                   value="" name="noti_enddate" ></th>
+                    </tr>
+
+                </table>
+
+
+                <table class="detail_table">
+
+                    <tr class="detail_title_tr">
+                        <th class="detail_title">제목</th>
+                        <th class="detail_title_ct"><input type="text"
+                                                           style="background-color: transparent; width: 100%; resize: none; overflow-wrap: break-word; word-wrap: break-word; border: none;"
+                                                           value="" name="noti_title"></th>
+                    </tr>
+                    <tr class="detail_content_tr">
+                        <th class="detail_content">내용</th>
+                        <th class="detail_content_ct">
+                            <textarea
+                                    style="background-color: transparent;  border:none;resize: none; width: 100%; min-height: 300px;"
+                                    name="noti_content"></textarea>
+                        </th>
+                    </tr>
+
+                </table>
+
+                <div class="btn_box">
+
+                    <a href="/notice/noticeListAdmin" class="btn1">
+                        목록
+                    </a>
+                    <a href="#" class="btn1" id="RegBtn">
+                        등록완료
+                    </a>
+                </div>
+
+            </form>
+
+
+        </div>
+    </div>
+
+</th:block>
+
+<script>
+
+    var RegBtn = document.getElementById("RegBtn");
+
+    RegBtn.onclick = () => {
+
+        event.preventDefault();
+        document.RegForm.action = "noticeRegForm"; // action 변경
+        document.RegForm.submit();
+
+
+    }
+
+
+</script>

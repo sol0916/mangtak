@@ -1,0 +1,149 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<link rel="stylesheet" th:href="@{/css/noticeListAdmin.css}">
+<script th:src="@{/js/jquery-1.12.1.min.js}"></script>
+<script th:src="@{/js/jquery-ui.min.js}"></script>
+
+<th:block th:replace="~{include/basicLayout :: setContent(~{::.wrap})}">
+
+
+  <div class="userpage_title wrap">공지사항</div>
+
+
+
+  <div class="notice_box wrap">
+    <div class="notice_box2">
+
+      <div class="title_box">
+
+        <div class="title_list" id="title_list">
+          <a href="#" class="btn1 on">
+            전체
+          </a>
+          <a href="#" class="btn1">
+            진행중
+          </a>
+          <a href="#" class="btn1">
+            기간만료
+          </a>
+        </div>
+          <a href="noticeReg" class="btn1 write_btn">
+            글쓰기
+          </a>
+
+      </div>
+
+      <table class="notice_table">
+
+        <tr class="notice_head">
+          <th class="list_no">순서</th>
+          <th class="list_title">제목</th>
+          <th class="list_name">작성자</th>
+          <th class="list_date">등록일</th>
+          <th class="list_enddate">마감일</th>
+          <th class="list_modify">관리</th>
+        </tr>
+
+        <tr class="notice_info" th:each="vo, status : ${list}">
+          <th class="list_no">[[${status.count}]]</th>
+          <th class="list_title"><a
+                  th:href="@{/notice/noticeDetail(noti_no=${vo.noti_no})}">[[${vo.noti_title}]]</a></th>
+          <th class="list_name">[[${vo.noti_writer}]]</th>
+          <th class="list_date">[[${vo.noti_regdate}]]</th>
+          <th class="list_enddate">[[${vo.noti_enddate}]]</th>
+          <th class="list_modify_btn"><a th:href="@{/notice/noticeModify(noti_no=${vo.noti_no})}" class="btn1">
+            수정
+          </a></th>
+
+        </tr>
+
+      </table>
+
+
+      <div class="page">
+        <ul>
+          <li><a href="#"><i class="back_double" aria-hidden="true">
+            <<</i></a></li>
+          <li style="margin-right:5px;"><a href="#"><i class="back_one" aria-hidden="true">
+            <</i></a></li>
+          <li class="on"><a href="#">1</a></li>
+
+          <li style="margin-left:5px;"><a href="#"><i class="front_one" aria-hidden="true">></i></a></li>
+          <li><a href="#"><i class="front_double" aria-hidden="true">>></i></a></li>
+        </ul>
+      </div>
+
+
+
+
+
+
+
+
+
+
+
+    </div>
+  </div>
+  </div>
+
+</th:block>
+
+<script>
+  $(document).ready(function() {
+    $("#title_list").on("click", "a", function(event) {
+      event.preventDefault();
+
+      // 모든 버튼의 클래스 제거
+      $("#title_list a").removeClass("on");
+
+      // 선택된 버튼에 클래스 추가
+      $(this).addClass("on");
+
+      // 버튼에 따라 리스트 필터링
+      var selectedBtn = $(this).text().trim();
+      filterList(selectedBtn);
+    });
+
+    // 초기에 전체 버튼을 선택한 상태로 리스트 출력
+    filterList("전체");
+  });
+
+  function filterList(button) {
+    var listItems = $(".notice_info");
+
+    if (button === "전체") {
+      listItems.show();
+    } else if (button === "진행중") {
+      listItems.hide();
+      listItems.each(function() {
+        var endDate = new Date($(this).find(".list_enddate").text().trim());
+        var today = new Date();
+        if (endDate >= today) {
+          $(this).show();
+        }
+      });
+    } else if (button === "기간만료") {
+      listItems.hide();
+      listItems.each(function() {
+        var endDate = new Date($(this).find(".list_enddate").text().trim());
+        var today = new Date();
+        if (endDate < today) {
+          $(this).show();
+        }
+      });
+    }
+  }
+
+
+
+</script>
+
+<script th:inline="javascript">
+
+  var msg = `[[${msg}]]`
+  if (msg !== 'null'){
+    alert(msg);
+  }
+
+</script>

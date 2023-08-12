@@ -1,0 +1,57 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<link rel="stylesheet" th:href="@{/css/noticeDetail.css}">
+
+<th:block th:replace="~{include/basicLayout2 :: setContent(~{::.wrap})}">
+
+
+  <div class="userpage_title wrap">공지내용</div>
+
+  <div class="notice_detail wrap">
+    <div class="detail_box">
+      <table class="detail_table">
+
+        <tr class="detail_tr">
+          <th class="detail_no">번호</th>
+          <th class="detail_no_ct">[[${vo.noti_no}]]</th>
+          <th class="detail_name">작성자</th>
+          <th class="detail_name_ct">[[${vo.noti_writer}]]</th>
+          <th class="detail_date">등록날짜</th>
+          <th class="detail_date_ct">[[${vo.noti_regdate}]]</th>
+          <th class="detail_enddate">공지종료날짜</th>
+          <th class="detail_enddate_ct">[[${vo.noti_enddate}]]</th>
+        </tr>
+
+      </table>
+
+
+      <table class="detail_table">
+
+        <tr class="detail_title_tr">
+          <th class="detail_title">제목</th>
+          <th class="detail_title_ct">[[${vo.noti_title}]]</th>
+        </tr>
+        <tr class="detail_content_tr">
+          <th class="detail_content">내용</th>
+          <th class="detail_content_ct"><textarea style="background-color: transparent;  border:none;resize: none; width: 100%; min-height: 300px;"
+                                                  name="noti_content" readonly>[[${vo.noti_content}]]</textarea></th>
+        </tr>
+
+      </table>
+
+
+      <div class="btn_box">
+
+        <a href="/main2" class="btn1">
+          홈으로
+        </a>
+        <a href="/notice/noticeList" class="btn1">
+          목록
+        </a>
+      </div>
+
+
+    </div>
+  </div>
+
+</th:block>

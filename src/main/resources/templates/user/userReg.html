@@ -1,0 +1,178 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<style>
+    .hidden {
+        display: none;
+    }
+</style>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+<th:block th:replace="~{include/basicLayout3 :: setContent(~{::.wrap})}">
+
+
+    <div class="wrap">
+        <div class="title_box">유저 등록 페이지</div>
+
+        <div class="userForm_wrap">
+
+            <form name="registForm" action="registForm" method="post">
+
+                <table cellpadding="0" cellspacing="20" class="userForm_table" width="100%;">
+
+                    <tr>
+                        <td>
+                            <input type="hidden" name="user_no">
+                        </td>
+                    </tr>
+                    <tr>
+                        <th class="thtd">분류</th>
+                        <td class="thtd">
+                            <div class="typeRadio" >
+                                <label >
+                                    <input type="radio" name="user_type" value="배송기사" checked="checked">
+                                    <span class="text span_pr">배송기사</span>
+                                </label>
+                                <input type="radio" name="user_type" value="관리자">
+                                <span class="text">관리자</span>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr class="user_id_tr">
+                        <th class="thtd">아이디</th>
+                        <td class="thtd"><input type="text" class="" name="user_id" ></td>
+                    </tr>
+                    <tr class="user_name_tr">
+                        <th class="thtd">이름</th>
+                        <td class="thtd"><input type="text" name="user_name"></td>
+                    </tr>
+                    <tr>
+                        <th class="thtd">핸드폰번호</th>
+                        <td class="thtd"><input type="text" name="user_phone" placeholder="000-0000-0000"></td>
+                    </tr>
+                    <tr class="user_area">
+                        <th class="thtd">담당지역</th>
+                        <td class="thtd user_area_td">
+
+                            <input type="hidden" name="user_category" value="">
+
+                            <select class="select_user_area" name="user_area" onchange="getCategory_List(event)">
+
+                                <option value="" th:text="선택"></option>
+                                <option th:each="vo : ${user_area_list}" th:value="${vo.category_detail_nm}" th:text="${vo.category_detail_nm}" th:data-set='|{"category_lv": "${vo.category_lv}", "category_id": "${vo.category_id}", "category_detail_lv": "${vo.category_detail_lv}", "group_id": "${vo.group_id}" }|'>[[${vo.category_detail_nm}]]</option>
+
+                            </select>
+
+
+                            <select class="user_area_detail" name="user_area_detail">
+
+                            </select>
+
+
+                        </td>
+
+                    </tr>
+                    <tr>
+                        <th class="thtd">이메일</th>
+                        <td class="thtd"><input type="text" name="user_email"></td>
+                    </tr>
+                    <tr class="jobRadio">
+                        <th class="thtd">담당업무</th>
+                        <td class="thtd">
+                            <div>
+                                <label>
+                                    <input type="radio" name="user_jobassign" value="수거" checked="checked">
+                                    <span class="text span_pr">수거</span>
+                                </label>
+                                <lavel>
+                                    <input type="radio" name="user_jobassign" value="배송">
+                                    <span class="text">배송</span>
+                                </lavel>
+                            </div>
+                        </td>
+                    </tr>
+
+                </table>
+
+                <div class="btn_area" style="overflow: hidden; margin-top: 50px; margin-left: 300px">
+                    <input type="submit" class="btn" value="등록" style="float: left">
+                </div>
+
+
+            </form>
+        </div>
+
+    </div>
+
+</th:block>
+
+
+<script th:inline="javascript">
+
+    var typeRadio = document.querySelector(".typeRadio");
+    var user_area = document.querySelector(".user_area");
+    var jobRadio = document.querySelector(".jobRadio");
+    var user_id_tr = document.querySelector(".user_id_tr");
+    var user_name_tr = document.querySelector(".user_name_tr");
+
+    typeRadio.addEventListener("change", function(){
+        var selectedValue = typeRadio.querySelector("input[name='user_type']:checked").value;
+        if(selectedValue === '관리자') {
+            user_area.classList.add("hidden");
+            jobRadio.classList.add("hidden");
+            user_id_tr.classList.add("hidden");
+            user_name_tr.classList.add("hidden");
+        } else {
+            user_area.classList.remove("hidden");
+            jobRadio.classList.remove("hidden");
+            user_id_tr.classList.remove("hidden");
+            user_name_tr.classList.remove("hidden");
+        }
+    });
+
+</script>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+
+
+    function getCategory_List(e) {
+
+        e.preventDefault();
+
+        if(e.target.tagName != 'SELECT') return;
+        var obj = $(e.target).find("option:selected").data("set");
+
+
+        if(obj.category_lv == 1 || obj.category_lv == 2) {
+
+            $.ajax({
+                url: 'getCategory/' + obj.group_id + '/' + obj.category_lv + '/' + obj.category_detail_lv,
+                type: 'get',
+                success : function(data) {
+
+
+                    var category = "";
+
+                    for(var i = 0; i<data.length; i++) {
+
+                        category += '<option>'+ data[i].category_detail_nm +'</option>';
+
+                    }
+
+                    $(".user_area_detail").html(category);
+
+                },
+                error : function(status, err) {
+                    alert('카테고리 조회에 실패했습니다. 관리자에게 문의해주세요');
+                }
+            })
+
+        }
+
+    }
+
+
+</script>
+

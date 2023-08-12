@@ -1,0 +1,148 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<html lang="ko">
+<head>
+    <title> 로그인 | 택배배송관리시스템 </title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1">
+    <meta charset="utf-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <link rel="stylesheet" th:href="@{/css/common.css}">
+    <link rel="stylesheet" th:href="@{/css/login.css}">
+    <script th:src="@{/js/jquery-1.11.3.min.js}"></script>
+    <script th:src="@{/js/common.js}"></script>
+    <script th:src="@{/js/jquery.smooth-scroll.min.js}"></script>
+
+    <script type="text/javascript">
+        // 현재 페이지에만 적용
+        $(document).ready(function () {
+            $('.switch').click(function () {			// 로그인 유지 작동
+                $(this).toggleClass("switchOn");
+            });
+            $('.quick_area').hide();				// 우측 빠른 실행 메뉴 숨김
+        });
+    </script>
+</head>
+
+<body>
+
+<!-- wrap -->
+<div id="wrap" class="s_point">
+
+    <div id="containe" class="layout0">
+
+        <!-- bodytext_area -->
+        <div class="bodytext_area box_inner">
+
+            <div class="left">
+                <img src="img/login1.jpeg" class="bgImg" alt="image">
+            </div>
+
+            <!-- login-wrap -->
+            <div class="right">
+                <div class="login_wrap">
+                    <form action="loginForm" method="post">
+                        <img src="img/title2.png"
+                             style="width: 250px; margin-bottom: 50px; display: block; margin: auto">
+                        <h1 class="loginTit"><a href="#"
+                                                style="color: white; font-size: 25px; font-weight: 600; margin-top: 40px;">택배
+                            배송 관리 시스템</a>
+                        </h1>
+
+                        <ul class="login_list">
+
+                            <li style="padding: 0;"><input type="text" placeholder="아이디" style="width:350px;" name="userId" required
+                            oninvalid="this.setCustomValidity('아이디를 필수로 입력하세요')"
+                            oninput="this.setCustomValidity('')"></li>
+                            <li style="padding: 0;"><input type="password" placeholder="비밀번호"
+                                                           style="width:350px; margin-top: 5px" name="userPw" required
+                                                           oninvalid="this.setCustomValidity('비밀번호를 필수로 입력하세요')"
+                                                           oninput="this.setCustomValidity('')"></li>
+                            <li style="padding: 0; display: flex; justify-content: center; margin-top: 10px">
+                                <input type="submit" class="login" value="로그인">
+<!--                                <a href="/loginForm" style="padding: 0 10px;">로그인</a>-->
+                                <input type="button" class="searchPw" value="비밀번호찾기">
+<!--                                <a href="#" style="padding: 0 10px;">비밀번호찾기</a>-->
+
+                            </li>
+                        </ul>
+
+                    </form>
+                </div>
+            </div>
+            <!-- //login-wrap -->
+
+        </div>
+        <!-- //bodytext_area -->
+
+    </div>
+    <!-- //container -->
+
+    <div class="modal">
+        <div class="modal_body">
+            <div class="modalOff">X</div>
+
+            <form action="pwReset" method="post">
+            <div class="modal_con">
+
+                <p style="margin-top: 20px">메일 주소를 입력하세요</p>
+                <input type="text" name="mail" class="inputMail" placeholder="이메일 입력" required>
+                <input type="submit" class="submitPw modalOff2" value="제출">
+
+            </div>
+            </form>
+
+    </div>
+
+    <footer>
+        <div class="foot_area box_inner">
+            <div class="left_footer">
+                <ul class="foot_list clear">
+                    <li><a href="javascript:;">이용약관</a></li>
+                    <li><a href="javascript:;">개인정보취급방침</a></li>
+                </ul>
+                <h2 style="margin-top: 5px">맹택 택배관리시스템</h2>
+                <p class="addr">Copyright(c) maengtack all right reserved</p>
+            </div>
+            <div class="right_footer foot_list">
+                <p class="addr">서울특별시 강남구 테헤란로 7길 7
+                    <span class="br_line" style="margin-top: 10px">대표전화 <span class="space0">02-1234-5678</span>
+					<span class="br_line">E-mail : <span class="space0"> maeng@maengtaek.com</span></span>
+				</span>
+                </p>
+            </div>
+        </div>
+    </footer>
+
+
+</div>
+<!-- //wrap -->
+<script type="text/javascript" th:src="@{/js/jquery.js}"></script>
+
+<script>
+    var msg = '[[${msg}]]';
+
+    if(msg !== 'null' && msg !== '') {
+        alert(msg);
+    }
+
+</script>
+
+<script>
+    const modal = document.querySelector('.modal');
+    $(".searchPw").click(function () {
+        modal.style.display = 'block';
+    })
+
+    $(".modalOff").click(function () {
+        modal.style.display = 'none';
+    })
+
+    $(".modalOff2").click(function () {
+        modal.style.display = 'none';
+    })
+
+</script>
+
+</body>
+</html>

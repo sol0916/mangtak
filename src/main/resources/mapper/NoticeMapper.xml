@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.delivery.springbootproject.notice.service.NoticeMapper">
+
+    <select id="getList" resultType="NoticeVO">
+        <![CDATA[
+        select * from NOTICE2 where noti_enddate > NOW() order by noti_regdate DESC
+        ]]>
+    </select>
+
+    <select id="getListAdmin" resultType="NoticeVO">
+        select * from NOTICE2 where noti_enddate ORDER BY noti_regdate DESC
+    </select>
+
+    <delete id="noticeDelete" parameterType="NoticeVO">
+        DELETE FROM NOTICE2 WHERE noti_no = #{noti_no}
+    </delete>
+
+    <select id="getDetail" resultType="NoticeVO">
+        select * from NOTICE2 WHERE noti_no = #{noti_no}
+    </select>
+
+    <update id="Modify" parameterType="NoticeVO">
+        update NOTICE2 SET noti_enddate = #{noti_enddate},
+                           noti_title = #{noti_title},
+                           noti_content = #{noti_content}
+        where noti_no = #{noti_no}
+    </update>
+
+    <insert id="noticeReg" parameterType="NoticeVO">
+        insert into NOTICE2 (noti_title,
+                             noti_content,
+                             noti_writer,
+                             noti_enddate
+        )
+        values (#{noti_title},
+                #{noti_content},
+                #{noti_writer},
+                #{noti_enddate}
+               )
+    </insert>
+
+</mapper>

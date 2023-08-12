@@ -1,0 +1,152 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <link rel="stylesheet" th:href="@{/css/prodDetail.css}">
+
+
+</head>
+
+<th:block th:replace="~{include/basicLayout2 :: setContent(~{::.wrap})}">
+
+    <div class="wrap">
+
+        <div class="prodDetail_title">물품 상세 정보</div>
+        <div class="main_con">
+            <div class="table_area">
+
+                <div class="first_table">
+                    <p style="font-size: 16px; margin: 0 0 5px 60px">[택배 물품 정보]</p>
+                    <table class="board_basic_view top_table">
+                        <tbody>
+                        <tr>
+                            <th>운송장번호</th>
+                            <td>[[${vo.prod_del_no}]]</td>
+                            <th>택배접수일</th>
+                            <td>[[${vo.prod_regdate}]]</td>
+                        </tr>
+                        <tr>
+                            <th>상품유형</th>
+                            <td>[[${vo.prod_type}]]</td>
+                            <th>상품출고일</th>
+                            <td>[[${vo.shipdate}]]</td>
+                        </tr>
+                        <tr>
+                            <th>배송메시지</th>
+                            <td>[[${vo.prod_msg}]]</td>
+                            <th>불량여부</th>
+                            <td colspan="3">
+                                <div class="uInputRadioBox">
+                                    <div class="uInputRadio">
+                                        <label>
+                                            <input type="radio" name="####" value="N"
+                                                   th:checked="${vo.prod_bad_yn == 'N'}">
+                                            <span class="text">불량 X</span>
+                                        </label>
+                                        <label style="margin-left: 20px;">
+                                            <input type="radio" name="####" value="Y"
+                                                   th:checked="${vo.prod_bad_yn == 'Y'}">
+                                            <span class="text">불량 O</span>
+                                        </label>
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="user_table">
+                    <div class="second_table">
+                        <p style="font-size: 16px; margin-bottom:5px">[수취인 정보]</p>
+                        <table class="board_basic_view left_table">
+                            <tbody>
+                            <tr>
+                                <th>이름</th>
+                                <td>[[${vo.cus_name}]]</td>
+                            </tr>
+                            <th>연락처</th>
+                            <td>[[${vo.cus_phone}]]</td>
+                            </tr>
+                            <tr>
+                                <th>주소</th>
+                                <td>[[${vo.cus_addr}]]</td>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="addr_map">
+                        <p style="font-size: 16px; margin-bottom:5px;">[주소 확인]</p>
+                        <div id="map" class="right_map" style="height: 330px; border: 1px solid whitesmoke; margin-bottom: 30px; width: 100%;">
+                            <script type="text/javascript"
+                                    src="//dapi.kakao.com/v2/maps/sdk.js?appkey=da9cfade2e2935e0512616632a6787c5&libraries=services"></script>
+                            <script>
+
+                                var mapContainer = document.getElementById('map'), // 지도를 표시할 div
+                                    mapOption = {
+                                        center: new kakao.maps.LatLng(37.499672, 127.0306436),
+                                        level: 3 // 지도의 확대 레벨
+                                    };
+
+                                var map = new kakao.maps.Map(mapContainer, mapOption); // 지도를 생성합니다
+                                var res = '[[${vo.cus_addr}]]';
+                                var geocoder = new kakao.maps.services.Geocoder();
+
+                                geocoder.addressSearch(res, function (result, status) {
+
+                                    if (status === kakao.maps.services.Status.OK) {
+                                        var arriveSrc = 'https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/blue_b.png',
+                                            arriveSize = new kakao.maps.Size(50, 45),
+                                            arriveOption = {
+                                                offset: new kakao.maps.Point(15, 43)
+                                            };
+
+                                        var arriveImage = new kakao.maps.MarkerImage(arriveSrc, arriveSize, arriveOption);
+                                        var arrivePosition = new kakao.maps.LatLng(result[0].y, result[0].x);
+
+                                        var arriveMarker = new kakao.maps.Marker({
+                                            map: map, // 도착 마커가 지도 위에 표시되도록 설정합니다
+                                            position: arrivePosition,
+                                            image: arriveImage
+                                        });
+
+                                        map.setCenter(arrivePosition);
+                                    }
+                                });
+
+                            </script>
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
+
+            <div class="btn_area">
+                <a id="goList" href="" class="revise">목록</a>
+            </div>
+        </div>
+
+    </div>
+
+
+</th:block>
+
+<script th:inline="javascript">
+
+    $(function () {
+        var st = '[[${vo.prod_status}]]';
+        var bad = '[[${vo.prod_bad_yn}]]';
+        console.log(st);
+        console.log(bad);
+
+        if(st=='"배송중"' && bad=='"N"') {
+            document.getElementById("goList").href = "prodList1";
+        } else if(st=='"배송완료"' && bad=='"N"') {
+            document.getElementById("goList").href = "prodList2";
+        } else {
+            document.getElementById("goList").href = "prodList3";
+        }
+    });
+
+</script>
+
+</html>

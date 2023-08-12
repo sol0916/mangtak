@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<link rel="stylesheet" th:href="@{/css/prodList1.css}">
+
+<th:block th:replace="~{./include/basicLayout :: setContent(~{:: .wrap})}">
+
+    <div class="wrap">
+        <form action="###" name="actionForm" methd="get">
+
+            <div class="title_box" style="height: 60px">
+                <div class="prodadmin_title">
+                    배송중 물품 확인
+                </div>
+                <div class="search left">
+                    <input type="text" name="searchKeyword" placeholder="검색어 입력" class="input_search"
+                           style="border-radius: 10px; color: #222" th:value="${pageVO.cri.searchKeyword}">
+                    <!--                    <a href="" id="searchBtn">-->
+                    <img src="https://s3.ap-northeast-2.amazonaws.com/cdn.wecode.co.kr/icon/search.png" class="search_icon">
+                    <!--                    </a>-->
+                </div>
+            </div>
+            <div class="list">
+                <div class="main_top">
+                    <input type="hidden" name="page" value="1">
+                    <input type="hidden" name="amount" th:value="${pageVO.amount}">
+
+                    <div class="searchBox" style="overflow: hidden">
+                        <div class="groupList" style="width: 77%; float: left; margin-top: 10px; margin-left: 15px">
+                            <div class="areaList left">
+                                <div class="area">
+                                    <input type="checkbox"  id="all" name="check" class="check" value="전체"  th:checked="${check != null && check.contains('전체')}">
+                                    <label for="all">
+                                        <div class="title">
+                                            전체
+                                        </div>
+                                    </label>
+                                </div>
+                                <div class="area">
+                                    <input type="checkbox" id="seoul" name="check" class="check" value="서울" th:checked="${check != null && check.contains('서울')}" >
+                                    <label for="seoul">
+                                        <div class="title">
+                                            서울
+                                        </div>
+                                    </label>
+                                </div>
+                                <div class="area">
+                                    <input type="checkbox" id="incheon" name="check" class="check" value="인천" th:checked="${check != null && check.contains('인천')}">
+                                    <label for="incheon">
+                                        <div class="title">
+                                            인천
+                                        </div>
+                                    </label>
+                                </div>
+                                <div class="area">
+                                    <input type="checkbox"  id="gyeongi" name="check" class="check" value="경기" th:checked="${check != null && check.contains('경기')}">
+                                    <label for="gyeongi">
+                                        <div class="title">
+                                            경기
+                                        </div>
+                                    </label>
+                                </div>
+                                <div class="area">
+                                    <input type="checkbox" id="busan" name="check" class="check" value="부산" th:checked="${check != null && check.contains('부산')}">
+                                    <label for="busan">
+                                        <div class="title">
+                                            부산
+                                        </div>
+                                    </label>
+                                </div>
+                                <div class="area">
+                                    <input type="checkbox"  id="daegu" name="check" class="check" value="대구" th:checked="${check != null && check.contains('대구')}">
+                                    <label for="daegu">
+                                        <div class="title">
+                                            대구
+                                        </div>
+                                    </label>
+                                </div>
+                                <div class="area">
+                                    <input type="checkbox" id="gwang" name="check" class="check" value="광주" th:checked="${check != null && check.contains('광주')}">
+                                    <label for="gwang">
+                                        <div class="title">
+                                            광주
+                                        </div>
+                                    </label>
+                                </div>
+                                <div class="area">
+                                    <input type="checkbox" id="daejeon" name="check" class="check" value="대전" th:checked="${check != null && check.contains('대전')}">
+                                    <label for="daejeon">
+                                        <div class="title">
+                                            대전
+                                        </div>
+                                    </label>
+                                </div>
+                                <div class="area">
+                                    <input type="checkbox" id="ulsan" name="check" class="check" value="울산" th:checked="${check != null && check.contains('울산')}">
+                                    <label for="ulsan">
+                                        <div class="title">
+                                            울산
+                                        </div>
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="areaList next">
+                                <div class="area">
+                                    <input type="checkbox" id="sejong" name="check" class="check" value="세종" th:checked="${check != null && check.contains('세종')}">
+                                    <label for="sejong">
+                                        <div class="title">
+                                            세종
+                                        </div>
+                                    </label>
+                                </div>
+                                <div class="area">
+                                    <input type="checkbox" id="gangwon" name="check" class="check" value="강원" th:checked="${check != null && check.contains('강원')}">
+                                    <label for="gangwon">
+                                        <div class="title">
+                                            강원
+                                        </div>
+                                    </label>
+                                </div>
+                                <div class="area">
+                                    <input type="checkbox" id="gyeongnam" name="check" class="check" value="경남" th:checked="${check != null && check.contains('경남')}">
+                                    <label for="gyeongnam">
+                                        <div class="title">
+                                            경남
+                                        </div>
+                                    </label>
+                                </div>
+                                <div class="area">
+                                    <input type="checkbox" id="gyeongbuk" name="check" class="check" value="경북" th:checked="${check != null && check.contains('경북')}">
+                                    <label for="gyeongbuk">
+                                        <div class="title">
+                                            경북
+                                        </div>
+                                    </label>
+                                </div>
+                                <div class="area">
+                                    <input type="checkbox" id="jeonnam" name="check" class="check" value="전남" th:checked="${check != null && check.contains('전남')}">
+                                    <label for="jeonnam">
+                                        <div class="title">
+                                            전남
+                                        </div>
+                                    </label>
+                                </div>
+                                <div class="area">
+                                    <input type="checkbox" id="jeonbuk" name="check" class="check" value="전북" th:checked="${check != null && check.contains('전북')}">
+                                    <label for="jeonbuk">
+                                        <div class="title">
+                                            전북
+                                        </div>
+                                    </label>
+                                </div>
+
+                                <div class="area">
+                                    <input type="checkbox" id="chungnam" name="check" class="check" value="충남" th:checked="${check != null && check.contains('충남')}">
+                                    <label for="chungnam">
+                                        <div class="title">
+                                            충남
+                                        </div>
+                                    </label>
+                                </div>
+                                <div class="area">
+                                    <input type="checkbox" id="chungbuk" name="check" class="check" value="충북" th:checked="${check != null && check.contains('충북')}">
+                                    <label for="chungbuk">
+                                        <div class="title">
+                                            충북
+                                        </div>
+                                    </label>
+                                </div>
+                                <div class="area">
+                                    <input type="checkbox" id="jeju" name="check" class="check" value="제주" th:checked="${check != null && check.contains('제주')}">
+                                    <label for="jeju">
+                                        <div class="title">
+                                            제주
+                                        </div>
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="area" style="float: left">
+                            <input type="submit" value="조회" style="margin-top: 35px!important; border-color: white;
+                                       background-color: rgb(51 65 85 / var(--tw-bg-opacity));cursor:pointer;
+                                       border-radius: 999px;
+                                       width:50px; height: 50px !important">
+                        </div>
+                    </div>
+                </div>
+
+        </form>
+
+        <!-- 물품리스트-->
+        <div class="full_collum collum">
+            <ul>
+                <li class="collum_tit">
+                    <table cellpadding="0" cellspacing="0" class="col_14">
+                        <tr>
+                            <th>순서</th>
+                            <th>운송장번호</th>
+                            <th>출고일</th>
+                            <th>상품유형</th>
+                            <th>현재위치</th>
+                            <th>지역</th>
+                            <th>담당기사</th>
+                        </tr>
+                        <!--pk 값은 화면에 찍히지 않는게 좋다.-->
+
+                        <tr th:each=" vo, status : ${list}">
+
+                            <td>[[${status.count}]]</td>
+                            <td><a th:href="@{prodDetail(prod_del_no=${vo.prod_del_no})}">[[${vo.prod_del_no}]]</a></td>
+                            <td>[[${vo.shipdate}]]</td>
+                            <td>[[${vo.prod_type}]]</td>
+                            <td>[[${vo.prod_location}]]</td>
+                            <td>[[${vo.prod_area}]]</td>
+                            <td>[[${vo.prod_deliver}]]</td>
+                            <input type="hidden" name="prod_status" th:value="${vo.prod_status}">
+                        </tr>
+                    </table>
+                </li>
+            </ul>
+        </div>
+
+        <th:block th:replace="~{./include/page :: pageNation( ${pageVO} )}"></th:block>
+    </div>
+    </div>
+
+</th:block>
+
+</div>
+
+<script>
+    var msg = '[[${msg}]]';
+
+    if(msg !== 'null' && msg !== '') {
+        alert(msg);
+    }
+
+</script>
+
+<script>
+
+    /* check박스 전체 선택 및 해제*/
+
+    var arr = new Array();
+
+    $(".check").on("click", function (e) {
+
+        if ($(e.target).attr("id") == "all") {
+            if ($(e.target).is(":checked")) {
+                $(".check").prop("checked", true);
+                $(".check").each(function () {
+                    arr.push($(this).next().find(".title").text().trim());
+
+                });
+            } else {
+                $(".check").prop("checked", false);
+                arr = [];
+            }
+        } else {
+            var title = $(e.target).next().find(".title").text().trim();
+            if ($(e.target).is(":checked")) {
+                arr.push(title);
+            } else {
+                var index = arr.indexOf(title);
+                if (index !== -1) {
+                    arr.splice(index, 1);
+                }
+            }
+            $("#arrParam").val(arr.join(",")); // 배열 값을 hidden input에 설정
+        }
+
+        for (var i = 0; i < arr.length; i++) {
+
+            if (arr[i] == '전체') {
+
+                arr.splice(i, 1);
+            }
+
+        }
+        console.log(arr);
+        console.log($("#arrParam").val())
+
+    });
+
+
+    $("#searchBtn").on("click", function () {
+
+        event.preventDefault();
+        document.actionForm.action = "prodList1";
+        document.actionForm.submit();
+    });
+
+    $(document).keydown(function (e) {
+
+        if (e.keyCode == 13) {
+
+            event.preventDefault();
+            document.actionForm.action = "prodList1";
+            document.actionForm.submit();
+        }
+
+    })
+    if ($("#seoul").val() == Y) {
+
+        $("#seoul")
+
+    }
+
+
+</script>
+
+
+</html>

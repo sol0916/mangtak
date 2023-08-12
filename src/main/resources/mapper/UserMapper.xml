@@ -1,0 +1,149 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.delivery.springbootproject.user.service.UserMapper">
+
+    <select id="findPw" resultType="String">
+        select user_pw FROM user where user_id = #{id}
+    </select>
+
+    <update id="updatePw" parameterType="java.util.ArrayList">
+        update user set user_pw = #{list[0]}
+        where user_email = #{list[1]}
+    </update>
+
+    <select id="findMail" resultType="String">
+        select user_id FROM user where user_email = #{mail}
+    </select>
+
+    <!-- 관리자 등록 전 user_no 값 받아오기 -->
+    <select id="getAdminUser_no" resultType="int">
+        select user_no from user where user_type = '관리자' order by user_no desc limit 0, 1;
+    </select>
+
+
+    <!-- 관리자 등록 -->
+    <insert id="adminRegist" parameterType="UserVO">
+
+        insert into user(user_no,
+                         user_type,
+                         user_id,
+                         user_name,
+                         user_pw,
+                         user_phone,
+                         user_area,
+                         user_email,
+                         user_jobassign
+        )
+        values(#{user_no},
+               #{user_type},
+               #{user_id},
+               #{user_name},
+               #{user_pw},
+               #{user_phone},
+               #{user_area},
+               #{user_email},
+               #{user_jobassign}
+              )
+    </insert>
+
+    <!-- 배송기사 등록 -->
+    <insert id="deliverRegist" parameterType="UserVO">
+        insert into user(user_type,
+                         user_id,
+                         user_name,
+                         user_pw,
+                         user_phone,
+                         user_area,
+                         user_email,
+                         user_jobassign
+        )
+        values(#{user_type},
+               #{user_id},
+               #{user_name},
+               #{user_pw},
+               #{user_phone},
+               #{user_area},
+               #{user_email},
+               #{user_jobassign}
+              )
+
+    </insert>
+
+
+    <!-- 관리자 목록 -->
+    <select id="getAdminList" resultType="UserVO">
+        select * from user
+        where user_type = "관리자"
+        order by user_no desc
+            limit #{cri.pageStart}, #{cri.amount}
+    </select>
+
+    <!-- 배송기사 목록 -->
+    <select id="getDeliverList" resultType="UserVO">
+        select * from user
+        where user_type = "배송기사"
+        order by user_no desc
+            limit #{cri.pageStart}, #{cri.amount}
+    </select>
+
+    <!-- 전체 페이지 조회 -->
+    <select id="getTotal" resultType="int">
+        select count(*) as total
+        from user
+        where user_type = #{user_type}
+
+    </select>
+
+
+    <!-- user_area 대분류 불러오기 -->
+    <select id="getUser_area" resultType="CategoryVO">
+        select *
+        from area
+        where category_lv = 1
+    </select>
+
+    <!-- user_area 중분류 불러오기 -->
+    <select id="getUser_area_detail" resultType="CategoryVO">
+        select *
+        from area
+        where group_id = #{group_id}
+          and category_parent_lv = #{category_lv}
+          and category_detail_parent_lv = #{category_detail_lv}
+    </select>
+
+
+    <!-- 유저 정보 -->
+    <select id="getInfo" parameterType="UserVO">
+        select *
+        from user
+        where user_no = #{user_no}
+    </select>
+
+    <!-- 유저 수정 -->
+    <update id="userModify" parameterType="UserVO">
+        update user
+        set user_id = #{user_id},
+            user_name = #{user_name},
+            user_pw = #{user_pw},
+            user_phone = #{user_phone},
+            user_area = #{user_area},
+            user_email = #{user_email},
+            user_jobassign = #{user_jobassign}
+        where user_no = #{user_no}
+
+    </update>
+
+    <!-- 유저 삭제 -->
+    <delete id="deleteUser">
+        delete from user where user_no = #{user_no}
+    </delete>
+
+    <!-- 유저삭제 전 fk 지우기 -->
+    <delete id="deleteFK">
+        delete from prod where user_no = #{user_no}
+    </delete>
+
+</mapper>

@@ -1,0 +1,54 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<link rel="stylesheet" th:href="@{/css/noticeList.css}">
+
+<th:block th:replace="~{include/basicLayout2 :: setContent(~{::.wrap})}">
+
+
+  <div class="userpage_title wrap">공지사항</div>
+
+
+
+  <div class="notice_box wrap">
+    <div class="notice_box2">
+
+      <table class="notice_table">
+
+        <tr class="notice_head">
+          <th class="list_no">순서</th>
+          <th class="list_title">제목</th>
+          <th class="list_name">작성자</th>
+          <th class="list_date">등록일</th>
+        </tr>
+
+        <tr class="notice_info" th:each="vo, status : ${list}">
+          <th class="list_no">[[${vo.noti_no}]]</th>
+          <th class="list_title" ><a th:href="@{/notice/noticeDetail(noti_no=${vo.noti_no})}">[[${vo.noti_title}]]</a></th>
+          <th class="list_name">[[${vo.noti_writer}]]</th>
+          <th class="list_date">[[${vo.noti_regdate}]]</th>
+
+        </tr>
+
+      </table>
+
+
+      <div class="page">
+        <ul>
+          <li><a href="#"><i class="back_double"
+                             aria-hidden="true"><<</i></a></li>
+          <li style="margin-right:5px;"><a href="#"><i class="back_one"
+                                                       aria-hidden="true"><</i></a></li>
+          <li class="on"><a href="#">1</a></li>
+          <li style="margin-left:5px;"><a href="#"><i class="front_one"
+                                                      aria-hidden="true">></i></a></li>
+          <li><a href="#"><i class="front_double"
+                             aria-hidden="true">>></i></a></li>
+        </ul>
+      </div>
+<!--      <th:block th:replace="~{/include/page :: pageNation( ${pageVO})}">-->
+
+<!--      </th:block>-->
+    </div>
+  </div>
+
+</th:block>

@@ -1,0 +1,29 @@
+############################유저 테이블############################
+CREATE TABLE user (
+   user_no   int   primary key AUTO_INCREMENT,
+   user_type   varchar(20)   NOT NULL,
+   user_id   varchar(30)   NOT NULL,
+   user_name varchar(30) NOT NULL,
+   user_pw   varchar(30)   NOT NULL,
+   user_phone   varchar(20)   NOT NULL,
+   user_area   varchar(20)   NOT NULL,
+   user_email   varchar(50)   NOT NULL,
+   user_jobassign   varchar(20)   NOT NULL
+);
+
+############################물품 테이블############################
+CREATE TABLE product2 (
+	prod_no int primary key AUTO_INCREMENT,
+    prod_regdate TIMESTAMP DEFAULT NOW(),
+    prod_del_no	int	NOT NULL,
+	prod_type	varchar(50)	NOT NULL,
+	prod_name	varchar(30)	NOT NULL,
+	prod_deliver varchar(20)	NOT NULL,
+    prod_area	varchar(20)	NOT NULL,
+	shipdate	varchar(20)	NOT NULL,
+    prod_status	varchar(10)	NOT NULL,
+    prod_location	varchar(10)	NOT NULL,
+	prod_bad_yn	CHAR(1) DEFAULT 'N' CHECK (PROD_BAD_YN IN ('Y', 'N')),
+	user_no	int NOT NULL,
+    foreign key(user_no) references user(user_no)
+);
